@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript" src="selector_slider/select2.min.js"></script>
+	<script type="text/javascript" src="selector_slider/select2_locale_zh-CN.js"></script>
+	
+	<script type='text/javascript' src="selector_slider/bootstrap-slider.min.js"></script>
+
+	<!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="selector_slider/select2.css">
+	  <link rel="stylesheet" type="text/css" href="selector_slider/select2-bootstrap.css">
+	
+    <link rel="stylesheet" href="selector_slider/bootstrap-slider.min.css">
+
+	<style type="text/css">
+		 .slider-selection {
+			background: #BABABA;
+		}
+		
+		#ex7ID .slider-handle {
+			background: red;
+		}
+
+		#ex8 .slider-handle {
+			background: green;
+		}
+	</style>
+    <!-- 3.0 -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div>
+		<label for="id_select">Image Selector の保持宽高比</label>
+		
+		<p>
+			<input type="hidden" id="e10" style="width:300px" tabindex="-1" title="" class="select2-offscreen">
+        </p>
+	</div>
+	
+	<div>
+		<label for="id_select">宽<span class="glyphicon glyphicon-text-width" style="margin-left:30px"></span></label>
+		<div class="well">
+			<input id="ex7" type="text" data-slider-min="100" data-slider-max="3000" 
+			data-slider-step="200" data-slider-value="500" 
+			data-slider-enabled="false" data-slider-handle="round" />
+			
+			<input id="ex7-enabled" type="checkbox" style="margin-left:30px"/> 是否启用
+		</div>
+	</div>
+	
+	<div >
+		<label for="id_select">高<span class="glyphicon glyphicon-text-height" style="margin-left:30px"></span></label>
+		<div class="well">
+			<input id="ex8" type="text" data-slider-min="100" data-slider-max="3000" 
+			data-slider-step="200" data-slider-value="500" 
+			data-slider-enabled="false" />
+			
+			<input id="ex8-enabled" type="checkbox" style="margin-left:30px"/> 是否启用
+		</div>
+	</div>
+	
+	<div>
+		<hr>
+		<image id="img" src="" alt="Hey man... Are You OK?" />
+	</div>
+	
+    <script type="text/javascript">
+        $(document).ready(function(){
+			console.log("I'm ready ...");
+      var location = window.location;
+      var actionURL = location.protocol + '//' + location.hostname + ':9999/getImages';
+      var baseImageURL = location.protocol + '//' + location.hostname + '/fcgi-bin/iipsrv.fcgi';
+      var now7 = $("#ex7").attr('data-slider-value');
+			console.log('一开始7的值: ' + now7)
+      var now8 = $("#ex8").attr('data-slider-value');
+			console.log('一开始8的值: ' + now8);;
+			
+
+      $.get(actionURL, function(response){
+				$("#e10").select2({
+					placeholder: '请选择要显示的图片...',
+					allowClear : true,
+					//data:[
+					//	{id:"第0个",text:'0enhancement'},
+					//	{id:"一只狗",text:'1bug'},
+					//	{id:'两只猫',text:'2duplicate'},
+					//	{id:'三只猴',text:'3invalid'},
+					//	{id:'四架马车',text:'4wontfix'}
+					//]
+					data:response
+				});
+
+				$("#e10").on('change', function(){
+//          console.log($(this)[0]);
+					console.log($(this).val());
+          setTimeout(function(){
+            console.log('Change Image');
+					  $("#img").attr('src', baseImageURL+'?FIF='+$('#e10').val()+'&WID='+now7+'&HEI='+now8+'&CVT=jpeg');
+          }, 100);
+				});
+			
+			});
+			
+			//     7
+			$("#ex7").slider({tooltip: 'always'});
+			$("#ex7-enabled").click(function() {
+				if(this.checked) {
+					$("#ex7").slider("enable");
+				}
+				else {
+					$("#ex7").slider("disable");
+				}
+			});
+			$("#ex7").on('slide', function(slideEvt){
+//				console.log('Width: ' + slideEvt.value);
+//        console.log($('#e10').val());
+				if(now7 != slideEvt.value && $('#e10').val()){
+					console.log('7的宽度改变: ' + slideEvt.value);
+//          setTimeout(function(){
+					    $("#img").attr('src', baseImageURL+'?FIF='+$('#e10').val()+'&WID='+now7+'&HEI='+now8+'&CVT=jpeg');
+//          }, 1000);
+				}
+				now7 = slideEvt.value;
+			});
+
+			//        8
+			$("#ex8").slider({tooltip: 'always'});
+			$("#ex8-enabled").click(function() {
+				if(this.checked) {
+					$("#ex8").slider("enable");
+				}
+				else {
+					$("#ex8").slider("disable");
+				}
+			});
+			$("#ex8").on('slide', function(slideEvt){
+//				console.log('Height: ' + slideEvt.value);
+				if(now8 != slideEvt.value && $('#e10').val()){
+					console.log('8Image Height保持宽高比: ' + slideEvt.value);
+          console.log($(this).val());
+					$("#img").attr('src', baseImageURL+'?FIF='+$('#e10').val()+'&WID='+now7+'&HEI='+now8+'&CVT=jpeg');
+				}
+				now8 = slideEvt.value;
+			});
+		});
+    </script>
+</body>
+</html>

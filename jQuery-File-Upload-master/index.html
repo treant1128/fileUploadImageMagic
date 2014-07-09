@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <title>上传の登陆</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+		<div class="alert alert-success fade in">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+			<span class="glyphicon glyphicon-remove"></span></button>
+			<div>
+			<span class="glyphicon glyphicon-envelope" />
+			<strong>abcd@yulong.com&nbsp;</strong>
+			<span class="glyphicon glyphicon-heart" />
+			<strong>9527</strong> :) ...     
+			</div>
+		</div>
+		
+      <form id="login" class="form-signin" role="form" action="./login" method="post">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input id="userEmail" name="userEmail" type="email" class="form-control" placeholder="Email address" required autofocus>
+        <input id="password" name="passWord" type="password" class="form-control" placeholder="Password" required>
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+	  
+	  
+    </div> <!-- /container -->
+
+	
+	<script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			setTimeout(function(){
+				$(".alert").alert('close');
+			}, 3500);
+
+			$('#login').submit(function(){
+				
+				var userEmail = $('#userEmail').val();
+				var password = $('#password').val();
+				
+			alert(userEmail + ' -- ' + password);
+
+//				$.post('/msg/admin/login', {username:username, password:password}, function(data){
+//					if(data === 'abc-mnt-ddg'){
+//						sessionStorage.setItem('username', username);
+//						sessionStorage.setItem('password', password);
+//						window.location.href = 'http://www.googoe.com';
+//					}else{
+//						alert(data);    
+//					}
+//				});    
+			});
+		});
+</script>
+	
+  </body>
+</html>
